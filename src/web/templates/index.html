@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Box</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+
+<body>
+
+    <div class="box">
+        <h1 id="headline">Lucky Box</h1>
+        <img src="../static/images/closed-box.png" alt="Closed Box" id="img-box">
+        <button id="open-box">Open</button>
+    </div>
+
+    <div class="container">
+        <div class="bubbles"></div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp
+        const defaultUrl = "https://342b-95-182-104-206.ngrok-free.app"
+
+        tg.headerColor = "#fff"
+        tg.expand()
+
+        document.addEventListener(
+            "DOMContentLoaded", () => {
+                const bubblesElem = document.querySelector(".bubbles")
+
+                for (let i = 0; i < 64; i++) {
+                    const bubbleElem = document.createElement("span")
+                    const randomId = Math.floor(Math.random() * 64) + 1
+
+                    bubbleElem.style.setProperty("--i", randomId)
+                    bubblesElem.appendChild(bubbleElem)
+                }
+            }
+        )
+
+        async function fetchData(endpoint, data) {
+            try {
+                console.log(`${defaultUrl}/${endpoint}`)
+                const response = await fetch(`${defaultUrl}/${endpoint}`, {
+                    method: "POST",
+                    headers: { Authentication: tg.initData },
+                    body: JSON.stringify(data)
+                })
+                const responseData = await response.json()
+                return responseData
+            } catch (error) {
+                console.log(`Error: ${error}`)
+                throw error
+            }
+        }
+
+        document.querySelector("#open-box").addEventListener(
+            "click", async () => {
+                const img = document.querySelector("#img-box")
+                const btn = document.querySelector("#open-box")
+                const text = document.querySelector("#headline")
+
+                await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
+                    .then(data => {
+                        const cash = data.cash
+
+                        if (cash >= 0 || cash < 100) {
+                            img.src = "../static/images/empty-box.png"
+                        } else if (cash >= 100 && cash < 500) {
+                            img.src = "../static/images/20box.png"
+                        } else if (cash >= 500 && cash < 700) {
+                            img.src = "../static/images/50box.png"
+                        } else {
+                            img.src = "../static/images/fullbox.png"
+                        }
+
+                        text.innerHTML = cash === -1 ? data.error : `You win: <span id='cash'>${cash}</span> $`
+                        btn.disabled = true
+                    })
+                    .catch(error => {
+                        // Можете обработать ошибку тута...
+                        console.log(`Error: ${error}`)
+                    })
+            }
+        )
+    </script>
+
+</body>
+
+</html>
