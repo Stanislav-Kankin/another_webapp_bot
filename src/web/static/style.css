@@ -71,6 +71,7 @@ body {
     font-size: 1.5em;
     box-shadow: 0 10px 0 #15fc89;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .box button:disabled {
