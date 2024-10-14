@@ -74,7 +74,7 @@ async def start(message: Message, user: User):
     next_usage = user.next_usage and f"{user.next_usage:%c}"
 
     markup = None
-    if not next_usage or (datetime.now(datetime.timezone.utc) + timedelta(minutes=2)) < tz.make_naive(user.next_usage):
+    if not next_usage or (datetime.utcnow() + timedelta(minutes=2)) < tz.make_naive(user.next_usage):
         markup = (
             InlineKeyboardBuilder()
             .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(url=config.WEBAPP_URL))
