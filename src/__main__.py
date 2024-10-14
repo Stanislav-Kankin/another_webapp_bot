@@ -74,7 +74,7 @@ async def start(message: Message, user: User):
     next_usage = user.next_usage and f"{user.next_usage:%c}"
 
     markup = None
-    if not next_usage or (datetime.utcnow() + timedelta(hours=3, seconds=30)) < tz.make_naive(user.next_usage):
+    if not next_usage or (datetime.utcnow() + timedelta(hours=5, seconds=30)) < tz.make_naive(user.next_usage):
         markup = (
             InlineKeyboardBuilder()
             .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(url=config.WEBAPP_URL))
@@ -101,8 +101,8 @@ async def open_box(request: Request):
     except ValueError:
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
-    current_datetime = datetime.utcnow() + timedelta(hours=3, seconds=30)
-    add_1h = current_datetime + timedelta(hours=3, seconds=30)
+    current_datetime = datetime.utcnow() + timedelta(hours=5, seconds=30)
+    add_1h = current_datetime + timedelta(hours=5, seconds=30)
 
     cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
