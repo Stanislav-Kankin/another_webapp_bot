@@ -102,7 +102,7 @@ async def open_box(request: Request):
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
     current_datetime = datetime.utcnow()
-    add_1h = current_datetime + timedelta(hours=5, seconds=30)
+    add_1h = current_datetime + timedelta(hours=3, seconds=30)
 
     cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
