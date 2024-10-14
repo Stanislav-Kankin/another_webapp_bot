@@ -107,7 +107,7 @@ async def open_box(request: Request):
     cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
 
-    if user.next_usage and add_1h > tz.make_naive(user.next_usage):
+    if user.next_usage and add_1h < tz.make_naive(user.next_usage):
         return JSONResponse({"success": False, "error": "Невозможно открыть сейчас.", "cash": -1})
 
     user.luckyboxes["count"] += 1
