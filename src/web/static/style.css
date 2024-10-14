@@ -71,7 +71,6 @@ body {
     font-size: 1.5em;
     box-shadow: 0 10px 0 #15fc89;
     transition: all 0.3s;
-    cursor: pointer;
 }
 
 .box button:disabled {
@@ -83,6 +82,7 @@ body {
 .box button:hover {
     box-shadow: 0 10px 0 #2ac766;
     transform: translateY(3px);
+    cursor: pointer;
 }
 
 .container {
