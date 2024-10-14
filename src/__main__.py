@@ -15,11 +15,11 @@ from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from tortoise import Tortoise
+from tortoise import Tortoise, timezone as tz
 import uvicorn
 
 from models import User
-from config import BOT_TOKEN, WEBAPP_URL, DB_URL, STATIC_PATH, TEMPLATES_PATH
+from config_reader import config
 
 
 class UserMiddleware(BaseMiddleware):
@@ -44,12 +44,12 @@ class UserMiddleware(BaseMiddleware):
 
 async def lifespan(app: FastAPI):
     await bot.set_webhook(
-        url=f"{WEBAPP_URL}/webhook",
+        url=f"{config.WEBAPP_URL}/webhook",
         allowed_updates=dp.resolve_used_update_types(),
         drop_pending_updates=True,
     )
 
-    await Tortoise.init(db_url=DB_URL.get_secret_value(), modules={"models": ["models"]})
+    await Tortoise.init(db_url=config.DB_URL.get_secret_value(), modules={"models": ["models"]})
     await Tortoise.generate_schemas()
     yield
     await Tortoise.close_connections()
@@ -57,16 +57,16 @@ async def lifespan(app: FastAPI):
 
 
 bot = Bot(
-    token=BOT_TOKEN.get_secret_value(),
+    token=config.BOT_TOKEN.get_secret_value(),
     default=DefaultBotProperties(parse_mode=ParseMode.HTML)
 )
 dp = Dispatcher()
 
 app = FastAPI(lifespan=lifespan)
-templates = Jinja2Templates(directory=TEMPLATES_PATH)
+templates = Jinja2Templates(directory=config.TEMPLATES_PATH)
 
 dp.message.middleware(UserMiddleware())
-app.mount("/static", StaticFiles(directory=STATIC_PATH), name="static")
+app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @dp.message(CommandStart())
