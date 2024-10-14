@@ -1,6 +1,5 @@
 from random import randint
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 from typing import Callable, Awaitable, Any
 
 from aiogram import Bot, Dispatcher, BaseMiddleware
@@ -75,7 +74,7 @@ async def start(message: Message, user: User):
     next_usage = user.next_usage and f"{user.next_usage:%c}"
 
     markup = None
-    if not next_usage or (datetime.now(ZoneInfo("UTC")) + timedelta(seconds=30)) < tz.make_naive(user.next_usage):
+    if not next_usage or (datetime.utcnow() + timedelta(hours=3, seconds=30) < tz.make_naive(user.next_usage):
         markup = (
             InlineKeyboardBuilder()
             .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(url=config.WEBAPP_URL))
@@ -102,7 +101,7 @@ async def open_box(request: Request):
     except ValueError:
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
-    current_datetime = datetime.now(ZoneInfo("UTC")) + timedelta(seconds=30)
+    current_datetime = datetime.utcnow() + timedelta(hours=3, seconds=30)
     add_1h = current_datetime + timedelta(seconds=30)
 
     cash = randint(0, 1000)
