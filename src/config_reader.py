@@ -10,7 +10,7 @@ class Config(BaseSettings):
     BOT_TOKEN: SecretStr
     DB_URL: SecretStr
 
-    WEBAPP_URL: str = "https://fruity-clocks-vanish.loca.lt"  #ТУННЕЛЬ
+    WEBAPP_URL: str = "https://df04-147-45-193-130.ngrok-free.app"  #ТУННЕЛЬ
 
     CURRENT_DIR: str = os.path.dirname(os.path.abspath(__file__))
     TEMPLATES_PATH: str = os.path.join(current_dir, "web", "templates")
