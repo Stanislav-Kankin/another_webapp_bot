@@ -13,8 +13,9 @@
     <div class="box">
         <h1 id="headline">Lucky Box</h1>
         <img src="../static/images/closed-box.png" alt="Closed Box" id="img-box">
-        <button id="open-box">Open</button>
+        <button id="open-box">Открыть</button>
     </div>
+
 
     <div class="container">
         <div class="bubbles"></div>
@@ -23,7 +24,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         const tg = window.Telegram.WebApp
-        const defaultUrl = "https://342b-95-182-104-206.ngrok-free.app"
+        const defaultUrl = "https://fruity-clocks-vanish.loca.lt"  // ТУННЕЛЬ
 
         tg.headerColor = "#fff"
         tg.expand()
@@ -68,7 +69,7 @@
                     .then(data => {
                         const cash = data.cash
 
-                        if (cash >= 0 || cash < 100) {
+                        if (cash >= 0 && cash < 100) {
                             img.src = "../static/images/empty-box.png"
                         } else if (cash >= 100 && cash < 500) {
                             img.src = "../static/images/20box.png"
@@ -78,7 +79,7 @@
                             img.src = "../static/images/fullbox.png"
                         }
 
-                        text.innerHTML = cash === -1 ? data.error : `You win: <span id='cash'>${cash}</span> $`
+                        text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
                         btn.disabled = true
                     })
                     .catch(error => {
