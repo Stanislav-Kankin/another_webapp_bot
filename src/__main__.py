@@ -77,7 +77,7 @@ async def start(message: Message, user: User):
     next_usage = user.next_usage and f"{user.next_usage:%c}"
 
     markup = None
-    if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage):
+    if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage) and user.number_of_tries != 0:
         markup = (
             InlineKeyboardBuilder()
             .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(
@@ -88,6 +88,7 @@ async def start(message: Message, user: User):
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
+        f"Осталось попыток <b>{user.number_of_tries}</b>.\n"
         f"🕐 <b>Следующее возможное октрытие:</b> <i>{next_usage or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
@@ -107,17 +108,19 @@ async def open_box(request: Request):
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
     current_datetime = datetime.utcnow()
-    add_1h = current_datetime + timedelta(hours=3, seconds=30)
+    # add_1h = current_datetime + timedelta(hours=3, seconds=30)
 
     i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
 
-    if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
+    if user.number_of_tries == 0:
+    # if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
         return JSONResponse({"success": False, "error": "Невозможно открыть сейчас.", "cash": -1})
 
     user.luckyboxes["count"] += 1
     user.luckyboxes["cash"] += i_cash
-    user.next_usage = add_1h
+    user.number_of_tries -= 1
+    # user.next_usage = add_1h
     await user.save()
 
     return JSONResponse({"success": True, "cash": i_cash})
