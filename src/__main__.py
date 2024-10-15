@@ -82,15 +82,15 @@ async def start(message: Message, user: User):
         markup = (
             InlineKeyboardBuilder()
             .button(
-                text=f"🍀 Испытай свою удачу!\n Осталось попыток {user.number_of_tries}",
+                text="🍀 Испытай свою удачу!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL))
         ).as_markup()
 
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
-        f"🎲Осталось попыток <b>{user.number_of_tries}</b>.\n"
-        f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
+        f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n",
+        # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
 
@@ -108,7 +108,7 @@ async def open_box(request: Request):
     except ValueError:
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
-    current_datetime = datetime.utcnow()
+    # current_datetime = datetime.utcnow()
     # add_1h = current_datetime + timedelta(hours=3, seconds=30)
 
     i_cash = randint(0, 1000)
