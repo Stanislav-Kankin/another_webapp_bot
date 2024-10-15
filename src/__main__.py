@@ -49,7 +49,10 @@ async def lifespan(app: FastAPI):
         drop_pending_updates=True,
     )
 
-    await Tortoise.init(db_url=config.DB_URL.get_secret_value(), modules={"models": ["models"]})
+    await Tortoise.init(
+        db_url=config.DB_URL.get_secret_value(),
+        modules={"models": ["models"]}
+        )
     await Tortoise.generate_schemas()
     yield
     await Tortoise.close_connections()
@@ -77,7 +80,9 @@ async def start(message: Message, user: User):
     if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage):
         markup = (
             InlineKeyboardBuilder()
-            .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(url=config.WEBAPP_URL))
+            .button(text="🍀 Испытай свою удачу!", web_app=WebAppInfo(
+                url=config.WEBAPP_URL)
+                )
         ).as_markup()
 
     await message.answer(
@@ -104,18 +109,18 @@ async def open_box(request: Request):
     current_datetime = datetime.utcnow()
     add_1h = current_datetime + timedelta(hours=3, seconds=30)
 
-    cash = randint(0, 1000)
+    i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
 
     if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
         return JSONResponse({"success": False, "error": "Невозможно открыть сейчас.", "cash": -1})
 
     user.luckyboxes["count"] += 1
-    user.luckyboxes["cash"] += cash
+    user.luckyboxes["cash"] += i_cash
     user.next_usage = add_1h
     await user.save()
 
-    return JSONResponse({"success": True, "cash": cash})
+    return JSONResponse({"success": True, "cash": i_cash})
 
 
 @app.post("/webhook")
