@@ -68,6 +68,7 @@
                 await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
                     .then(data => {
                         const cash = data.cash
+                        const tries = data.tries
 
                         if (cash >= 0 && cash < 100) {
                             img.src = "../static/images/empty-box.png"
@@ -80,7 +81,8 @@
                         }
 
                         text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
-                        btn.disabled = true
+                        text.innerHTML = tries === -1 ? data.error : `Ящиков осталось <span id='number_of_tries'>${tries}</span> $`
+                        btn.disabled = false
                     })
                     .catch(error => {
                         // Можете обработать ошибку тута...
