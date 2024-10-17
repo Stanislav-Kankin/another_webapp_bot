@@ -98,6 +98,17 @@ async def start(message: Message, user: User):
     )
 
 
+async def chek_tries_time(request: Request):
+    authorization = request.headers.get("Authentication")
+    data = safe_parse_webapp_init_data(bot.token, authorization)
+    user = await User.filter(id=data.user.id).first()
+    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
+        print(user.number_of_tries)
+    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
+        user.number_of_tries = 5
+        await user.save()
+
+
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -134,17 +145,6 @@ async def open_box(request: Request):
     await chek_tries_time(request=request)
 
     return JSONResponse({"success": True, "cash": i_cash})
-
-
-async def chek_tries_time(request: Request):
-    authorization = request.headers.get("Authentication")
-    data = safe_parse_webapp_init_data(bot.token, authorization)
-    user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
-        print(user.number_of_tries)
-    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
-        user.number_of_tries = 5
-        await user.save()
 
 
 async def main():
