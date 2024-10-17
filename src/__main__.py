@@ -96,6 +96,7 @@ async def start(message: Message, user: User):
         reply_markup=markup
     )
     user.cmd_str = datetime.now(pytz.utc)
+    user.save()
     print(user.time_of_use)
     print(user.next_usage)
 
