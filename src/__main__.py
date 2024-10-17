@@ -141,7 +141,7 @@ async def chek_tries_time(request: Request):
     authorization = request.headers.get("Authentication")
     data = safe_parse_webapp_init_data(bot.token, authorization)
     user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.time_of_use < datetime.now(pytz.utc) + timedelta(seconds=3):
+    if user.number_of_tries < 5 and user.time_of_use < datetime.now(pytz.utc) + timedelta(seconds=10):
         user.number_of_tries += 1
         await user.save()
 
