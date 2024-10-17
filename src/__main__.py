@@ -82,7 +82,7 @@ async def start(message: Message, user: User):
         markup = (
             InlineKeyboardBuilder()
             .button(
-                text="🍀 Испытай свою удачу!",
+                text="🍀 Испытай свою удачу! Запускай приложение и открывай боксы!🍀",
                 web_app=WebAppInfo(url=config.WEBAPP_URL))
         ).as_markup()
 
@@ -125,6 +125,7 @@ async def open_box(request: Request):
     user.luckyboxes["count"] += 1
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
+    user.time_of_use= datetime.utcnow()
     # user.next_usage = add_1h
     await user.save()
 
