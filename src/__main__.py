@@ -127,10 +127,40 @@ async def open_box(request: Request):
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
     user.time_of_use = datetime.utcnow()
+    await chek_tries_time()
     # user.next_usage = add_1h
     await user.save()
 
     return JSONResponse({"success": True, "cash": i_cash})
+
+
+async def chek_tries_time():
+    user = await User.filter(id=1).first()
+    if user.number_of_tries < 5 and user.time_of_use < datetime.utcnow() + timedelta(seconds=30):
+        user.number_of_tries += 1
+        await user.save()
+
+
+async def main():
+    await bot.set_webhook(
+        url=f"{config.WEBAPP_URL}/webhook",
+        allowed_updates=dp.resolve_used_update_types(),
+        drop_pending_updates=True,
+    )
+
+    await Tortoise.init(
+        db_url=config.DB_URL.get_secret_value(),
+        modules={"models": ["models"]}
+        )
+    await Tortoise.generate_schemas()
+
+    await bot.session.close()
+
+
+
+
+
+
 
 
 @app.post("/webhook")
