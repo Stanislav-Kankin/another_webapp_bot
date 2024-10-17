@@ -128,11 +128,9 @@ async def open_box(request: Request):
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
     user.time_of_use = datetime.now(pytz.utc)
-
-    await chek_tries_time(request=request)
-
     # user.next_usage = add_1h
     await user.save()
+    await chek_tries_time(request=request)
 
     return JSONResponse({"success": True, "cash": i_cash})
 
@@ -160,12 +158,6 @@ async def main():
     await Tortoise.generate_schemas()
 
     await bot.session.close()
-
-
-
-
-
-
 
 
 @app.post("/webhook")
