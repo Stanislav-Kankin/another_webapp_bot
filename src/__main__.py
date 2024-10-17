@@ -77,6 +77,7 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 async def start(message: Message, user: User):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
     markup = None
+    time_is_now = datetime.now(pytz.utc)
     if user.number_of_tries:
     # if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage) and user.number_of_tries != 0:
         markup = (
@@ -90,12 +91,12 @@ async def start(message: Message, user: User):
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
         f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n"
-        f"⚙ время тест: {user.cmd_str}\n"
+        f"⚙ время тест: {time_is_now}\n"
         f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
-    user.cmd_str = datetime.now(pytz.utc)
+    user.cmd_str = time_is_now
     user.save()
     print(user.time_of_use)
     print(user.next_usage)
