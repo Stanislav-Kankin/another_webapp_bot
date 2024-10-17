@@ -90,11 +90,12 @@ async def start(message: Message, user: User):
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
         f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n"
-        f"⚙ время тест: {user.time_of_use}\n"
+        f"⚙ время тест: {user.cmd_str}\n"
         f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
+    user.cmd_str = datetime.now(pytz.utc)
     print(user.time_of_use)
     print(user.next_usage)
 
@@ -142,9 +143,7 @@ async def open_box(request: Request):
     user.number_of_tries -= 1
     user.time_of_use = current_datetime
     user.next_usage = next_use
-    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
-        user.number_of_tries = user.number_of_tries
-    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
+    if user.cmd_str <= next_use:
         user.number_of_tries = 5
     print(current_datetime)
     print(next_use)

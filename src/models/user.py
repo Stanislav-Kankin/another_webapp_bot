@@ -9,3 +9,4 @@ class User(Model):
     time_of_use = fields.DatetimeField(null=True)
     next_usage = fields.DatetimeField(null=True)
     number_of_tries = fields.IntField(default=5, null=True)
+    cmd_str = fields.DatatimeField(null=True)
