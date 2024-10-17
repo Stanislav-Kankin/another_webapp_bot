@@ -129,7 +129,7 @@ async def open_box(request: Request):
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
     user.time_of_use = datetime.now(pytz.utc)
-    # user.next_usage = add_1h
+    user.next_usage = datetime.now(pytz.utc) + timedelta(seconds=10)
     await user.save()
     await chek_tries_time(request=request)
 
@@ -140,8 +140,10 @@ async def chek_tries_time(request: Request):
     authorization = request.headers.get("Authentication")
     data = safe_parse_webapp_init_data(bot.token, authorization)
     user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.time_of_use > datetime.now(pytz.utc) + timedelta(seconds=10):
-        user.number_of_tries += 1
+    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
+        await print(user.number_of_tries)
+    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
+        user.number_of_tries = 5
         await user.save()
 
 
