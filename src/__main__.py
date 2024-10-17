@@ -117,7 +117,7 @@ async def root(request: Request):
 
 
 @app.post("/open-box")
-async def open_box(request: Request, user: User):
+async def open_box(request: Request):
     authorization = request.headers.get("Authentication")
     try:
         data = safe_parse_webapp_init_data(bot.token, authorization)
@@ -126,10 +126,10 @@ async def open_box(request: Request, user: User):
 
     current_datetime = datetime.now(pytz.utc)
     next_use = current_datetime + timedelta(seconds=10)
-    start_time = user.cmd_str
 
     i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
+    start_time = user.cmd_str
 
     if user.number_of_tries == 0:
     # if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
