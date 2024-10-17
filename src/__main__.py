@@ -121,8 +121,8 @@ async def open_box(request: Request):
     except ValueError:
         return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
 
-    # current_datetime = datetime.utcnow()
-    # add_1h = current_datetime + timedelta(hours=3, seconds=30)
+    current_datetime = datetime.now(pytz.utc)
+    next_use = current_datetime + timedelta(seconds=10)
 
     i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
@@ -138,8 +138,10 @@ async def open_box(request: Request):
     user.luckyboxes["count"] += 1
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
-    user.time_of_use = datetime.now(pytz.utc)
-    user.next_usage = datetime.now(pytz.utc) + timedelta(seconds=10)
+    user.time_of_use = current_datetime
+    user.next_usage = next_use
+    print(current_datetime)
+    print(next_use)
     await user.save()
     await chek_tries_time(request=request)
 
