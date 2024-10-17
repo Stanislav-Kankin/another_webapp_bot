@@ -128,7 +128,7 @@ async def open_box(request: Request):
     user.number_of_tries -= 1
     user.time_of_use = datetime.utcnow()
 
-    await chek_tries_time()
+    await chek_tries_time(request=request)
 
     # user.next_usage = add_1h
     await user.save()
