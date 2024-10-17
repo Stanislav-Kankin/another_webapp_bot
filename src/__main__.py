@@ -129,7 +129,6 @@ async def open_box(request: Request):
 
     i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
-    start_time = user.cmd_str
 
     if user.number_of_tries == 0:
     # if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
@@ -144,7 +143,9 @@ async def open_box(request: Request):
     user.number_of_tries -= 1
     user.time_of_use = current_datetime
     user.next_usage = next_use
-    if start_time <= next_use:
+    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
+        user.number_of_tries = user.number_of_tries
+    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
         user.number_of_tries = 5
     print(current_datetime)
     print(next_use)
