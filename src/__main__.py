@@ -95,6 +95,8 @@ async def start(message: Message, user: User):
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
+    print(user.time_of_use)
+    print(user.next_usage)
 
 
 async def chek_tries_time(request: Request):
