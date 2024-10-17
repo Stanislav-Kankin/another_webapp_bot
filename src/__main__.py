@@ -1,5 +1,6 @@
 from random import randint
 from datetime import datetime, timedelta
+import pytz
 from typing import Callable, Awaitable, Any
 
 from aiogram import Bot, Dispatcher, BaseMiddleware
@@ -126,7 +127,7 @@ async def open_box(request: Request):
     user.luckyboxes["count"] += 1
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
-    user.time_of_use = datetime.utcnow()
+    user.time_of_use = datetime.now(pytz.utc)
 
     await chek_tries_time(request=request)
 
@@ -140,7 +141,7 @@ async def chek_tries_time(request: Request):
     authorization = request.headers.get("Authentication")
     data = safe_parse_webapp_init_data(bot.token, authorization)
     user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.time_of_use < datetime.utcnow() + timedelta(seconds=3):
+    if user.number_of_tries < 5 and user.time_of_use < datetime.now(pytz.utc) + timedelta(seconds=3):
         user.number_of_tries += 1
         await user.save()
 
