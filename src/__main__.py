@@ -117,7 +117,7 @@ async def root(request: Request):
 
 
 @app.post("/open-box")
-async def open_box(request: Request):
+async def open_box(request: Request, user: User):
     authorization = request.headers.get("Authentication")
     try:
         data = safe_parse_webapp_init_data(bot.token, authorization)
