@@ -74,7 +74,7 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @dp.message(CommandStart())
-async def start(message: Message, user: User):
+async def start(message: Message, user: User, request: Request):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
     markup = None
     if user.number_of_tries:
@@ -95,6 +95,7 @@ async def start(message: Message, user: User):
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
+    await chek_tries_time(request)
     print(user.time_of_use)
     print(user.next_usage)
 
@@ -145,7 +146,7 @@ async def open_box(request: Request):
     print(current_datetime)
     print(next_use)
     await user.save()
-    await chek_tries_time(request=request)
+    # await chek_tries_time(request=request)
 
     return JSONResponse({"success": True, "cash": i_cash})
 
