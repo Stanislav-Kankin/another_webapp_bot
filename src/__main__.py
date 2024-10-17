@@ -102,29 +102,37 @@ async def root(request: Request):
 
 @app.post("/open-box")
 async def open_box(request: Request):
-    authorization = request.headers.get("Authentication")
-    try:
-        data = safe_parse_webapp_init_data(bot.token, authorization)
-    except ValueError:
-        return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
+    # Проверка авторизации
+    # ...
 
-    # current_datetime = datetime.utcnow()
-    # add_1h = current_datetime + timedelta(hours=3, seconds=30)
+    # Получение текущего времени
+    current_datetime = datetime.utcnow()
 
-    i_cash = randint(0, 1000)
+    # Получение пользователя
     user = await User.filter(id=data.user.id).first()
 
-    if user.number_of_tries == 0:
-    # if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
-        return JSONResponse({"success": False, "error": "Невозможно открыть сейчас. 😢", "cash": -1})
+    # Проверка количества ящиков
+    if user.luckyboxes['count'] >= 5:
+        # Если ящиков больше или равно 5, проверяем время следующего открытия
+        if user.next_usage and current_datetime < tz.make_naive(user.next_usage):
+            return JSONResponse({"success": False, "error": "Невозможно открыть ящик сейчас. Попробуйте позже."})
+        else:
+            # Если время следующего открытия прошло, рассчитываем время следующего открытия
+            next_usage = current_datetime + timedelta(hours=1)
+            user.next_usage = next_usage
+    else:
+        # Если ящиков меньше 5, открываем ящик и увеличиваем счетчики
+        cash = randint(0, 1000)
+        user.luckyboxes['count'] += 1
+        user.luckyboxes['cash'] += cash
 
-    user.luckyboxes["count"] += 1
-    user.luckyboxes["cash"] += i_cash
-    user.number_of_tries -= 1
-    # user.next_usage = add_1h
+    # Сохранение пользователя в базе данных
     await user.save()
 
-    return JSONResponse({"success": True, "cash": i_cash})
+    # Возвращаем ответ
+    return JSONResponse({"success": True, "cash": cash})
+
+
 
 
 @app.post("/webhook")
