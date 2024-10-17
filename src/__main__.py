@@ -103,8 +103,10 @@ async def root(request: Request):
 @app.post("/open-box")
 async def open_box(request: Request):
     # Проверка авторизации
-    # ...
-
+    try:
+        data = safe_parse_webapp_init_data(bot.token, authorization)
+    except ValueError:
+        return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
     # Получение текущего времени
     current_datetime = datetime.utcnow()
 
