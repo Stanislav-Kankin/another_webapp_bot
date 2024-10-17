@@ -127,16 +127,21 @@ async def open_box(request: Request):
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
     user.time_of_use = datetime.utcnow()
-    await chek_tries_time()
+    try:
+        await chek_tries_time()
+    except AttributeError:
+        pass
     # user.next_usage = add_1h
     await user.save()
 
     return JSONResponse({"success": True, "cash": i_cash})
 
 
-async def chek_tries_time():
-    user = await User.filter(id=1).first()
-    if user.number_of_tries < 5 and user.time_of_use < datetime.utcnow() + timedelta(seconds=30):
+async def chek_tries_time(request: Request):
+    authorization = request.headers.get("Authentication")
+    data = safe_parse_webapp_init_data(bot.token, authorization)
+    user = await User.filter(id=data.user.id).first()
+    if user.number_of_tries < 5 and user.time_of_use < datetime.utcnow() + timedelta(seconds=3):
         user.number_of_tries += 1
         await user.save()
 
