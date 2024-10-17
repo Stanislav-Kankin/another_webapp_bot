@@ -126,6 +126,7 @@ async def open_box(request: Request):
 
     current_datetime = datetime.now(pytz.utc)
     next_use = current_datetime + timedelta(seconds=10)
+    start_time = user.cmd_str
 
     i_cash = randint(0, 1000)
     user = await User.filter(id=data.user.id).first()
@@ -143,7 +144,7 @@ async def open_box(request: Request):
     user.number_of_tries -= 1
     user.time_of_use = current_datetime
     user.next_usage = next_use
-    if user.cmd_str <= next_use:
+    if start_time <= next_use:
         user.number_of_tries = 5
     print(current_datetime)
     print(next_use)
