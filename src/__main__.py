@@ -127,10 +127,9 @@ async def open_box(request: Request):
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
     user.time_of_use = datetime.utcnow()
-    try:
-        await chek_tries_time()
-    except AttributeError:
-        pass
+
+    await chek_tries_time()
+
     # user.next_usage = add_1h
     await user.save()
 
