@@ -118,7 +118,8 @@ async def open_box(request: Request):
     # if user.next_usage and add_1h < tz.make_naive(user.next_usage):  # заменил тут знак
         return JSONResponse(
             {"success": False,
-             "error": "Невозможно открыть сейчас. 😢"}
+             "error": "Невозможно открыть сейчас. 😢",
+             "cash": -1}
             )
 
     user.luckyboxes["count"] += 1
