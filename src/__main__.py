@@ -82,14 +82,15 @@ async def start(message: Message, user: User):
         markup = (
             InlineKeyboardBuilder()
             .button(
-                text="🍀 Испытай свою удачу! Запускай приложение и открывай боксы!🍀",
+                text="🍀 Испытай свою удачу!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL))
         ).as_markup()
 
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
-        f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n",
+        f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n"
+        f"⚙ время тест: {user.time_of_use}",
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
@@ -125,7 +126,7 @@ async def open_box(request: Request):
     user.luckyboxes["count"] += 1
     user.luckyboxes["cash"] += i_cash
     user.number_of_tries -= 1
-    user.time_of_use= datetime.utcnow()
+    user.time_of_use = datetime.utcnow()
     # user.next_usage = add_1h
     await user.save()
 
