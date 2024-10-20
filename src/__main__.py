@@ -90,14 +90,9 @@ async def start(message: Message, user: User):
         markup = (
             InlineKeyboardBuilder()
             .button(
-                text="🤑 Добавить ящики сейчас(КУПИТЬ)!",
-                web_app=WebAppInfo(url=config.WEBAPP_URL)
-            )
-            .row()
+                text="🤑 Добавить ящики сейчас(КУПИТЬ)!").row()
             .button(
-                text="🥰 Пригласи друга в группу и получишь +1 попытку!",
-                web_app=WebAppInfo(url=config.WEBAPP_URL)
-            )
+                text="🥰 Пригласи друга в группу и получишь +1 попытку!")
             .row()
         ).as_markup()
 
