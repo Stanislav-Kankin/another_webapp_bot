@@ -9,6 +9,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from models import User
 from config_reader import config
 
+
 router = Router()
 
 
