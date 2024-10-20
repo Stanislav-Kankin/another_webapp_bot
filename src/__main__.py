@@ -95,7 +95,7 @@ async def start(message: Message, user: User):
         reply_markup=markup
     )
     user.cmd_str = time_cmd_start
-    user.save()
+    await user.save()
     if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
         user.number_of_tries = user.number_of_tries
     elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
