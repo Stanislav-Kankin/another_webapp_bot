@@ -13,7 +13,7 @@ from random import randint
 from models import User
 
 from config_reader import config
-from src.__main__ import bot, dp
+from __main__ import bot, dp
 
 
 api_router = APIRouter()
