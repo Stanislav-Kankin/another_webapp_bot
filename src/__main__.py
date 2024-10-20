@@ -86,6 +86,18 @@ async def start(message: Message, user: User):
                 text="🍀 Испытай свою удачу!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL))
         ).as_markup()
+    elif user.number_of_tries <= 0:
+        markup = (
+            InlineKeyboardBuilder()
+            .button(
+                text="🤑 Добавить ящики сейчас(КУПИТЬ)!",
+                web_app=WebAppInfo(url=config.WEBAPP_URL)
+            )
+            .button(
+                text="🥰 Пригласи друга в группу и получишь +1 попытку!",
+                web_app=WebAppInfo(url=config.WEBAPP_URL)
+            )
+        )
 
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
