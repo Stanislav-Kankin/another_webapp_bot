@@ -16,7 +16,7 @@ from models import User
 
 from config_reader import config
 
-from src.__main__ import bot, dp
+from app.my_bot import bot, dp
 
 
 async def lifespan(app: FastAPI):

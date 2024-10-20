@@ -1,9 +1,7 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.types import Update
 
 from aiogram.enums import ParseMode
-
 
 from tortoise import Tortoise
 import uvicorn
@@ -14,13 +12,14 @@ from app.middlewares import UserMiddleware
 from app.api import app
 from app.handlers import router
 
+from app.my_bot import bot, dp
 
-bot = Bot(
-    token=config.BOT_TOKEN.get_secret_value(),
-    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
-)
-dp = Dispatcher()
-dp.message.middleware(UserMiddleware())
+# bot = Bot(
+#     token=config.BOT_TOKEN.get_secret_value(),
+#     default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+# )
+# dp = Dispatcher()
+# dp.message.middleware(UserMiddleware())
 
 
 async def main():
