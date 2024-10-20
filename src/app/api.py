@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     await bot.set_webhook(
         url=f"{config.WEBAPP_URL}/webhook",
         allowed_updates=dp.resolve_used_update_types(),
-        drop_pending_updastes=True,
+        drop_pending_updastes=True
     )
 
     await Tortoise.init(
