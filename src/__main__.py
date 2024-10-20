@@ -90,7 +90,7 @@ async def start(message: Message, user: User):
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
-        f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n"
+        f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n",
         # f"⚙ время тест: {time_is_now}\n"
         # f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
