@@ -74,7 +74,7 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @dp.message(CommandStart())
-async def start(message: Message, user: User, request: Request):
+async def start(message: Message, user: User):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
 
     markup = None
