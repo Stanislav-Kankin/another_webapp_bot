@@ -77,7 +77,7 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 async def start(message: Message, user: User):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
     markup = None
-    time_is_now = datetime.now(pytz.utc)
+    time_cmd_start = datetime.now(pytz.utc)
     if user.number_of_tries:
     # if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage) and user.number_of_tries != 0:
         markup = (
@@ -91,26 +91,26 @@ async def start(message: Message, user: User):
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
         f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n"
-        f"⚙ время тест: {time_is_now}\n"
-        f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
+        # f"⚙ время тест: {time_is_now}\n"
+        # f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
         # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
         reply_markup=markup
     )
-    user.cmd_str = time_is_now
+    user.cmd_str = time_cmd_start
     user.save()
     print(user.time_of_use)
     print(user.next_usage)
 
 
-# async def chek_tries_time(request: Request):
-#     authorization = request.headers.get("Authentication")
-#     data = safe_parse_webapp_init_data(bot.token, authorization)
-#     user = await User.filter(id=data.user.id).first()
-#     if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
-#         user.number_of_tries = user.number_of_tries
-#     elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
-#         user.number_of_tries = 5
-#         await user.save()
+async def chek_tries_time(request: Request):
+    authorization = request.headers.get("Authentication")
+    data = safe_parse_webapp_init_data(bot.token, authorization)
+    user = await User.filter(id=data.user.id).first()
+    if user.number_of_tries < 5 and user.next_usage > user.time_of_use:
+        user.number_of_tries = user.number_of_tries
+    elif user.number_of_tries < 5 and user.next_usage <= user.time_of_use:
+        user.number_of_tries = 5
+        await user.save()
 
 
 @app.get("/")
