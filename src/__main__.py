@@ -79,8 +79,7 @@ async def start(message: Message, user: User):
 
     markup = None
     time_cmd_start = datetime.now(pytz.utc)
-    if user.number_of_tries:
-    # if not next_usage or (datetime.utcnow() + timedelta(seconds=30)) < tz.make_naive(user.next_usage) and user.number_of_tries != 0:
+    if 1 <= user.number_of_tries <= 5:
         markup = (
             InlineKeyboardBuilder()
             .button(
@@ -92,9 +91,7 @@ async def start(message: Message, user: User):
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
         f"(+<code>{user.luckyboxes['cash']}</code>)\n"
         f"🎲 Осталось ящиков <b>{user.number_of_tries}</b>.\n",
-        # f"⚙ время тест: {time_is_now}\n"
-        # f"Delta + time = {datetime.now(pytz.utc) + timedelta(seconds=10)}",
-        # f"🕐 <b>Следующее возможное октрытие:</b> <i>{user.number_of_tries or 'Можешь открыть сейчас!'}</i>",
+
         reply_markup=markup
     )
     user.cmd_str = time_cmd_start
