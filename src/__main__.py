@@ -76,14 +76,6 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 @dp.message(CommandStart())
 async def start(message: Message, user: User, request: Request):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
-    authorization = request.headers.get("Authentication")
-    data = safe_parse_webapp_init_data(bot.token, authorization)
-    user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
-        user.number_of_tries = user.number_of_tries
-    elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
-        user.number_of_tries = 5
-        await user.save()
 
     markup = None
     time_cmd_start = datetime.now(pytz.utc)
@@ -107,6 +99,11 @@ async def start(message: Message, user: User, request: Request):
     )
     user.cmd_str = time_cmd_start
     user.save()
+    if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
+        user.number_of_tries = user.number_of_tries
+    elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
+        user.number_of_tries = 5
+        await user.save()
 
     print(f"time 0f use: {user.time_of_use}")
     print(f"next usage: {user.next_usage}")
