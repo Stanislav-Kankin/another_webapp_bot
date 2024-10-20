@@ -1,8 +1,6 @@
 from tortoise import Tortoise
 
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, APIRouter
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
@@ -15,8 +13,10 @@ from random import randint
 from models import User
 
 from config_reader import config
+from src.__main__ import bot, dp
 
-from app.my_bot import bot, dp
+
+api_router = APIRouter()
 
 
 async def lifespan(app: FastAPI):
@@ -36,19 +36,7 @@ async def lifespan(app: FastAPI):
     await bot.session.close()
 
 
-app = FastAPI(lifespan=lifespan)
-app.mount("/static", StaticFiles(
-    directory=config.STATIC_PATH), name="static"
-    )
-templates = Jinja2Templates(directory=config.TEMPLATES_PATH)
-
-
-@app.get("/")
-async def root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-
-@app.post("/open-box")
+@api_router.post("/open-box")
 async def open_box(request: Request):
     authorization = request.headers.get("Authentication")
     try:
@@ -81,7 +69,7 @@ async def open_box(request: Request):
     return JSONResponse({"success": True, "cash": i_cash})
 
 
-@app.post("/webhook")
+@api_router.post("/webhook")
 async def webhook(request: Request):
     update = Update.model_validate(await request.json(), context={"bot": bot})
     await dp.feed_update(bot, update)
