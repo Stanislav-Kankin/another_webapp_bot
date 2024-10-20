@@ -74,8 +74,11 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @dp.message(CommandStart())
-async def start(message: Message, user: User):
+async def start(message: Message, user: User, request: Request):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
+    authorization = request.headers.get("Authentication")
+    data = safe_parse_webapp_init_data(bot.token, authorization)
+    user = await User.filter(id=data.user.id).first()
     markup = None
     time_cmd_start = datetime.now(pytz.utc)
     if user.number_of_tries:
