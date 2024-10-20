@@ -101,7 +101,7 @@ async def start(message: Message, user: User, request: Request):
     )
     user.cmd_str = time_cmd_start
     user.save()
-    await chek_tries_time()
+    await chek_tries_time(request=request)
     print(f"time 0f use: {user.time_of_use}")
     print(f"next usage: {user.next_usage}")
     print(f"cmd start: {user.cmd_str}")
