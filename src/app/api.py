@@ -1,16 +1,21 @@
 from tortoise import Tortoise
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from config_reader import config
 
 
-class App:
+class Api:
     def __init__(self, bot, dp) -> None:
         self.bot = bot
         self.dp = dp
 
-    async def app(self):
-        await FastAPI(lifespan=self.lifespan)
+    async def web_app(self):
+        app = await FastAPI(lifespan=self.lifespan)
+        app.mount("/static", StaticFiles(
+            directory=config.STATIC_PATH), name="static"
+            )
+        return app
 
     async def lifespan(self, app: FastAPI):
         await self.bot.set_webhook(

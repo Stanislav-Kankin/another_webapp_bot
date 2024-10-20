@@ -22,7 +22,7 @@ from models import User
 from config_reader import config
 
 from app.middlewares import UserMiddleware
-from app.api import App
+from app.api import Api
 from app.handlers import router
 
 
@@ -32,11 +32,10 @@ bot = Bot(
 )
 dp = Dispatcher()
 
-app = App(bot, dp)
+app = Api(bot, dp)
 templates = Jinja2Templates(directory=config.TEMPLATES_PATH)
 
 dp.message.middleware(UserMiddleware())
-app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @app.get("/")
