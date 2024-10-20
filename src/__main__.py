@@ -10,7 +10,7 @@ from aiogram.enums import ParseMode
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
 
-from fastapi import FastAPI, Request
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
