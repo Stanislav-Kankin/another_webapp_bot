@@ -74,7 +74,7 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 
 @dp.message(CommandStart())
-async def start(message: Message, user: User):
+async def start(message: Message, user: User, request: Request):
     # next_usage = user.next_usage and f"{user.next_usage:%c}"
     markup = None
     time_cmd_start = datetime.now(pytz.utc)
@@ -98,6 +98,7 @@ async def start(message: Message, user: User):
     )
     user.cmd_str = time_cmd_start
     user.save()
+    await chek_tries_time(request=request)
     print(f"time 0f use: {user.time_of_use}")
     print(f"next usage: {user.next_usage}")
     print(f"cmd start: {user.cmd_str}")
