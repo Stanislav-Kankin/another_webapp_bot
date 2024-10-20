@@ -93,6 +93,7 @@ async def start(message: Message, user: User):
                 text="🤑 Добавить ящики сейчас(КУПИТЬ)!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL)
             )
+            .row()
             .button(
                 text="🥰 Пригласи друга в группу и получишь +1 попытку!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL)
