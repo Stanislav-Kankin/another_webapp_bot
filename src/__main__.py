@@ -97,7 +97,7 @@ async def start(message: Message, user: User):
                 text="🥰 Пригласи друга в группу и получишь +1 попытку!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL)
             )
-        )
+        ).as_markup()
 
     await message.answer(
         f"🎁 <b>Ящиков открыто:</b> <code>{user.luckyboxes['count']}</code> "
