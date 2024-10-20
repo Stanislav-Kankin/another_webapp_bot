@@ -93,7 +93,7 @@ async def start(message: Message, user: User):
                 text="🤑 Добавить ящики сейчас(КУПИТЬ)!", callback_data="pay")
             .button(
                 text="🥰 Пригласи друга в группу и получишь +1 попытку!", callback_data="friend")
-            .row()
+            .row(width=1)
         ).as_markup()
 
     await message.answer(
