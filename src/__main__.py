@@ -79,6 +79,12 @@ async def start(message: Message, user: User, request: Request):
     authorization = request.headers.get("Authentication")
     data = safe_parse_webapp_init_data(bot.token, authorization)
     user = await User.filter(id=data.user.id).first()
+    if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
+        user.number_of_tries = user.number_of_tries
+    elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
+        user.number_of_tries = 5
+        await user.save()
+
     markup = None
     time_cmd_start = datetime.now(pytz.utc)
     if user.number_of_tries:
@@ -101,21 +107,21 @@ async def start(message: Message, user: User, request: Request):
     )
     user.cmd_str = time_cmd_start
     user.save()
-    await chek_tries_time(request=request)
+
     print(f"time 0f use: {user.time_of_use}")
     print(f"next usage: {user.next_usage}")
     print(f"cmd start: {user.cmd_str}")
 
 
-async def chek_tries_time(request: Request):
-    authorization = request.headers.get("Authentication")
-    data = safe_parse_webapp_init_data(bot.token, authorization)
-    user = await User.filter(id=data.user.id).first()
-    if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
-        user.number_of_tries = user.number_of_tries
-    elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
-        user.number_of_tries = 5
-        await user.save()
+# async def chek_tries_time(request: Request):
+#     authorization = request.headers.get("Authentication")
+#     data = safe_parse_webapp_init_data(bot.token, authorization)
+#     user = await User.filter(id=data.user.id).first()
+#     if user.number_of_tries < 5 and user.next_usage > user.cmd_str:
+#         user.number_of_tries = user.number_of_tries
+#     elif user.number_of_tries < 5 and user.next_usage <= user.cmd_str:
+#         user.number_of_tries = 5
+#         await user.save()
 
 
 @app.get("/")
