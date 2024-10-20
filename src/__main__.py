@@ -98,6 +98,7 @@ async def start(message: Message, user: User):
                 text="🥰 Пригласи друга в группу и получишь +1 попытку!",
                 web_app=WebAppInfo(url=config.WEBAPP_URL)
             )
+            .row()
         ).as_markup()
 
     await message.answer(
