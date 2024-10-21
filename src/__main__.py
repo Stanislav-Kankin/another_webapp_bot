@@ -5,7 +5,9 @@ from typing import Callable, Awaitable, Any
 
 from aiogram import Bot, Dispatcher, BaseMiddleware, F
 from aiogram.client.default import DefaultBotProperties
-from aiogram.types import Message, Update, WebAppInfo, CallbackQuery
+from aiogram.types import (
+    Message, Update, WebAppInfo, CallbackQuery, InlineKeyboardButton
+    )
 from aiogram.filters import CommandStart
 from aiogram.enums import ParseMode
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -108,12 +110,18 @@ async def start(message: Message, user: User):
     elif user.number_of_tries <= 0:
         dict_markup = (
             InlineKeyboardBuilder()
-            .button(
-                text="🤑 Добавить ящики сейчас(КУПИТЬ)!",
-                callback_data="pay")
-            .button(
-                text="🥰 Пригласи друга в группу и получишь +1 попытку!",
-                callback_data="friend")
+            .row(
+                InlineKeyboardButton(
+                    text="🤑 Добавить ящики сейчас(КУПИТЬ)!",
+                    callback_data="pay"
+                )
+            )
+            .row(
+                InlineKeyboardButton(
+                    text="🥰 Пригласи друга в группу и получишь +1 попытку!",
+                    callback_data="friend"
+                )
+            )
         ).as_markup()
 
     await message.answer(
