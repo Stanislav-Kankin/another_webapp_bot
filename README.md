@@ -10,7 +10,7 @@
 3) ## Клонирование репозитория
 Клонируйте репозиторий с проектом:
 
-git clone https://github.com/Stanislav-Kankin/another_webapp_bot.git
+```git clone https://github.com/Stanislav-Kankin/another_webapp_bot.git```
 Установка зависимостей с помощью Poetry
 
 
