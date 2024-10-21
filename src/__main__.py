@@ -36,10 +36,10 @@ class UserMiddleware(BaseMiddleware):
                 "Нужно задать имя пользователя чтобы использовать бот."
                 )
 
-        user = await User.get_or_create(
+        v_in_user = await User.get_or_create(
             id=event.from_user.id, username=event.from_user.username
             )
-        data["user"] = user[0]
+        data["user"] = v_in_user[0]
         return await handler(event, data)
 
 
