@@ -3,9 +3,9 @@ from datetime import datetime, timedelta
 import pytz
 from typing import Callable, Awaitable, Any
 
-from aiogram import Bot, Dispatcher, BaseMiddleware
+from aiogram import Bot, Dispatcher, BaseMiddleware, F
 from aiogram.client.default import DefaultBotProperties
-from aiogram.types import Message, Update, WebAppInfo
+from aiogram.types import Message, Update, WebAppInfo, CallbackQuery
 from aiogram.filters import CommandStart
 from aiogram.enums import ParseMode
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -131,6 +131,19 @@ async def start(message: Message, user: User):
         user.number_of_tries = 5
         await user.save()
 
+
+@dp.callback_query(F.data == "pay")
+async def pay(callback_query: CallbackQuery, user: User):
+    await callback_query.message.answer(
+        f"{user.username}, тут будет логика получения оплаты."
+    )
+
+
+@dp.callback_query(F.data == "friend")
+async def invite_friend(callback_query: CallbackQuery, user: User):
+    await callback_query.message.answer(
+        f"{user.username}, тут логика приглашения друга в целевую группу."
+    )
 
 @app.get("/")
 async def root(request: Request):
