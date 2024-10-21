@@ -133,16 +133,16 @@ async def start(message: Message, user: User):
 
 
 @dp.callback_query(F.data == "pay")
-async def pay(callback_query: CallbackQuery, user: User):
+async def pay(callback_query: CallbackQuery):
     await callback_query.message.answer(
-        f"{user.username}, тут будет логика получения оплаты."
+        "тут будет логика получения оплаты."
     )
 
 
 @dp.callback_query(F.data == "friend")
-async def invite_friend(callback_query: CallbackQuery, user: User):
+async def invite_friend(callback_query: CallbackQuery):
     await callback_query.message.answer(
-        f"{user.username}, тут логика приглашения друга в целевую группу."
+        "тут логика приглашения друга в целевую группу."
     )
 
 @app.get("/")
