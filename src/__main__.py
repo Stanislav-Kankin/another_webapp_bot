@@ -179,7 +179,7 @@ async def open_box(request: Request):
     if user.number_of_tries == 0:
         return JSONResponse(
             {"success": False,
-             "error": "Невозможно открыть сейчас. 😢",
+             "error": "Невозможно открыть сейчас. Нет ящиков. 😢",
              "cash": -1}
             )
 
