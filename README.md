@@ -12,7 +12,7 @@
 
 ```git clone https://github.com/Stanislav-Kankin/another_webapp_bot.git```
 
-Установка зависимостей с помощью Poetry
+# Установка зависимостей с помощью Poetry
 
 
 4) ## Перейдите в директорию проекта:
