@@ -24,13 +24,24 @@ from config_reader import config
 
 
 class UserMiddleware(BaseMiddleware):
-
+    """
+    Middleware для обработки пользовательских данных.
+    """
     async def __call__(
         self,
         handler: Callable[[Message, dict[str, Any]], Awaitable[Any]],
         event: Message,
         data: dict[str, Any]
     ) -> Any:
+        """
+        Обработчик middleware для добавления пользовательских
+        данных в контекст события.
+
+        :param handler: Обработчик события.
+        :param event: Событие.
+        :param data: Данные события.
+        :return: Результат выполнения обработчика.
+        """
         if not event.from_user.username:
             return await event.answer(
                 "Нужно задать имя пользователя чтобы использовать бот."
@@ -44,6 +55,11 @@ class UserMiddleware(BaseMiddleware):
 
 
 async def lifespan(app: FastAPI):
+    """
+    Функция для управления жизненным циклом FastAPI приложения.
+
+    :param app: Экземпляр FastAPI приложения.
+    """
     await bot.set_webhook(
         url=f"{config.WEBAPP_URL}/webhook",
         allowed_updates=dp.resolve_used_update_types(),
@@ -74,8 +90,12 @@ app.mount("/static", StaticFiles(directory=config.STATIC_PATH), name="static")
 
 @dp.message(CommandStart())
 async def start(message: Message, user: User):
-    # next_usage = user.next_usage and f"{user.next_usage:%c}"
+    """
+    Обработчик команды /start.
 
+    :param message: Сообщение.
+    :param user: Пользователь.
+    """
     dict_markup = None
     dt_time_cmd_start = datetime.now(pytz.utc)
     if 1 <= user.number_of_tries <= 5:
@@ -114,11 +134,23 @@ async def start(message: Message, user: User):
 
 @app.get("/")
 async def root(request: Request):
+    """
+    Обработчик корневого маршрута.
+
+    :param request: Запрос.
+    :return: Ответ с шаблоном index.html.
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.post("/open-box")
 async def open_box(request: Request):
+    """
+    Обработчик маршрута для открытия ящика.
+
+    :param request: Запрос.
+    :return: JSON ответ с результатом открытия ящика.
+    """
     authorization = request.headers.get("Authentication")
     try:
         data = safe_parse_webapp_init_data(bot.token, authorization)
@@ -150,6 +182,9 @@ async def open_box(request: Request):
 
 
 async def main():
+    """
+    Основная функция для запуска бота и инициализации базы данных.
+    """
     await bot.set_webhook(
         url=f"{config.WEBAPP_URL}/webhook",
         allowed_updates=dp.resolve_used_update_types(),
@@ -167,6 +202,11 @@ async def main():
 
 @app.post("/webhook")
 async def webhook(request: Request):
+    """
+    Обработчик вебхука для бота.
+
+    :param request: Запрос.
+    """
     update = Update.model_validate(await request.json(), context={"bot": bot})
     await dp.feed_update(bot, update)
 
