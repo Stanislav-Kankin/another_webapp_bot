@@ -1,8 +1,10 @@
+/* Подключение шрифта */
 @font-face {
     font-family: "Fulbo";
     src: url("fonts/FulboArgenta.ttf");
 }
 
+/* Общие стили для всех элементов */
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +12,7 @@
     font-family: "Fulbo";
 }
 
+/* Стили для тела документа */
 body {
     background: #0f0a18;
     display: flex;
@@ -18,6 +21,7 @@ body {
     min-height: 100vh;
 }
 
+/* Стили для контейнера с ящиком */
 .box {
     position: absolute;
     z-index: 1;
@@ -31,6 +35,7 @@ body {
     box-shadow: 0 0 20px #1b1525;
 }
 
+/* Стили для заголовка внутри ящика */
 .box h1 {
     color: #fff;
     text-align: center;
@@ -39,6 +44,7 @@ body {
     animation: pulse 1s ease-in-out infinite alternate;
 }
 
+/* Анимация пульсации для заголовка */
 @keyframes pulse {
     0% {
         opacity: 100%;
@@ -48,11 +54,13 @@ body {
     }
 }
 
+/* Стили для элемента с текстом "cash" */
 #cash {
     color: #2ac766;
     text-shadow: 0 0 20px #22a554;
 }
 
+/* Стили для изображения внутри ящика */
 .box img {
     display: block;
     margin: 30% auto;
@@ -60,6 +68,7 @@ body {
     height: 256px;
 }
 
+/* Стили для кнопки внутри ящика */
 .box button {
     outline: none;
     border: none;
@@ -73,18 +82,21 @@ body {
     transition: all 0.3s;
 }
 
+/* Стили для отключенной кнопки */
 .box button:disabled {
     opacity: 70%;
     cursor: not-allowed;
     box-shadow: 0 10px 0 #0ea75b2c;
 }
 
+/* Стили для кнопки при наведении курсора */
 .box button:hover {
     box-shadow: 0 10px 0 #2ac766;
     transform: translateY(3px);
     cursor: pointer;
 }
 
+/* Стили для контейнера */
 .container {
     position: relative;
     width: 100%;
@@ -92,12 +104,14 @@ body {
     overflow: hidden;
 }
 
+/* Стили для контейнера с пузырьками */
 .bubbles {
     position: relative;
     display: flex;
     flex-wrap: wrap;
 }
 
+/* Стили для пузырьков */
 .bubbles span {
     position: relative;
     width: 30px;
@@ -112,6 +126,7 @@ body {
     animation-duration: calc(125s / var(--i));
 }
 
+/* Стили для четных пузырьков */
 .bubbles span:nth-child(even) {
     background: #57f771;
     box-shadow: 0 0 0 10px #058d4e1f,
@@ -119,6 +134,7 @@ body {
     0 0 100px #4fec5c80;
 }
 
+/* Анимация для пузырьков */
 @keyframes animate {
     0% {
         transform: translateY(100vh) scale(0);
