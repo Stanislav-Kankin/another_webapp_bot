@@ -17,6 +17,7 @@
         <button id="show-info">Показать информацию</button>
     </div>
 
+    <!-- Информационная панель -->
     <div id="info-panel" style="display: none;">
         <h2>Информация о выигрышах</h2>
         <div id="winnings-info"></div>
@@ -62,14 +63,13 @@
 
         document.querySelector("#open-box").addEventListener("click", async () => {
             const img = document.querySelector("#img-box");
-            const btn = document.querySelector("#open-box");
             const text = document.querySelector("#headline");
 
             await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
                 .then(data => {
                     const cash = data.cash;
 
-                    // Убираем логику анимации
+                    // Логика открытия коробки
                     if (cash >= 0 && cash < 100) {
                         img.src = "../static/images/empty-box.png";
                     } else if (cash >= 100 && cash < 500) {
@@ -89,22 +89,22 @@
 
         document.querySelector("#show-info").addEventListener("click", () => {
             const infoPanel = document.querySelector("#info-panel");
+
             const winningsInfo = document.querySelector("#winnings-info");
 
             fetchData("get-winnings-info", { id: tg.initDataUnsafe.user.id })
                 .then(data => {
                     winningsInfo.innerHTML = `Ваши выигрыши: ${data.winnings}, Всего открытых коробок: ${data.totalOpened}`;
+                    infoPanel.style.display = "block"; // Показываем информационную панель
                 })
                 .catch(err => {
                     winningsInfo.innerHTML = "Ошибка получения данных";
                 });
-
-            // Отображение информационной панели поверх
-            infoPanel.style.display = "block";
         });
 
+        // Закрытие информационной панели
         document.querySelector("#close-info").addEventListener("click", () => {
-            document.querySelector("#info-panel").style.display = "none"; // Закрываем информацию
+            document.querySelector("#info-panel").style.display = "none"; // Скрываем панель информации
         });
     </script>
 
