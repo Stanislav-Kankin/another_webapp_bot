@@ -44,7 +44,7 @@ body {
 .box h1 {
     color: #fff; /* Устанавливает цвет текста */
     text-align: center; /* Центрирует текст по горизонтали */
-    margin-top: 20px; /* Добавляет верхний внешний отступ */
+    margin-top: 0px; /* Добавляет верхний внешний отступ */
     transition: all 1s; /* Добавляет плавный переход для всех свойств */
     animation: pulse 1s ease-in-out infinite alternate; /* Добавляет анимацию пульсации */
 }
