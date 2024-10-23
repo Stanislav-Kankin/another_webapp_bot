@@ -202,6 +202,25 @@ async def open_box(request: Request):
     return JSONResponse({"success": True, "cash": i_cash})
 
 
+@app.post("/get-stats")
+async def get_stats(request: Request):
+    authorization = request.headers.get("Authentication")
+    try:
+        data = safe_parse_webapp_init_data(bot.token, authorization)
+    except ValueError:
+        return JSONResponse({"success": False, "error": "Unauthorized"}, 401)
+
+    user = await User.filter(id=data.user.id).first()
+    if user is None:
+        return JSONResponse({"success": False, "error": "User not found"}, 404)
+
+    return JSONResponse({
+        "success": True,
+        "wins": user.luckyboxes["cash"],
+        "total_boxes": user.luckyboxes["count"]
+    })
+
+
 async def main():
     """
     Основная функция для запуска бота и инициализации базы данных.
