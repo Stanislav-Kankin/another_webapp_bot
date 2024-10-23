@@ -46,7 +46,7 @@ body {
     text-align: center; /* Центрирует текст по горизонтали */
     margin-top: 20px; /* Добавляет верхний внешний отступ */
     transition: all 1s; /* Добавляет плавный переход для всех свойств */
-    animation: pulse 1s ease-in-out infinite alternate; /* Добавляет анимацию пульсации */
+    animation: pulse 3s ease-in-out infinite alternate; /* Добавляет анимацию пульсации */
 }
 
 /* Анимация пульсации для заголовка */
