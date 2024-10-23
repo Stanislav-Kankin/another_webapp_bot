@@ -30,24 +30,22 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         const tg = window.Telegram.WebApp
-        const defaultUrl = "https://a4d3-147-45-193-130.ngrok-free.app"  // ТУННЕЛЬ
+        const defaultUrl = "https://a4d3-147-45-193-130.ngrok-free.app"
 
         tg.headerColor = "#fff"
         tg.expand()
 
-        document.addEventListener(
-            "DOMContentLoaded", () => {
-                const bubblesElem = document.querySelector(".bubbles")
+        document.addEventListener("DOMContentLoaded", () => {
+            const bubblesElem = document.querySelector(".bubbles")
 
-                for (let i = 0; i < 64; i++) {
-                    const bubbleElem = document.createElement("span")
-                    const randomId = Math.floor(Math.random() * 64) + 1
+            for (let i = 0; i < 64; i++) {
+                const bubbleElem = document.createElement("span")
+                const randomId = Math.floor(Math.random() * 64) + 1
 
-                    bubbleElem.style.setProperty("--i", randomId)
-                    bubblesElem.appendChild(bubbleElem)
-                }
+                bubbleElem.style.setProperty("--i", randomId)
+                bubblesElem.appendChild(bubbleElem)
             }
-        )
+        });
 
         async function fetchData(endpoint, data) {
             try {
@@ -64,9 +62,10 @@
                 throw error
             }
         }
+
         function showSpinningNumber(element, duration, finalNumber) {
             const startTime = Date.now();
-            const interval = 50; // Интервал обновления в миллисекундах
+            const interval = 50;
 
             const spin = () => {
                 const elapsedTime = Date.now() - startTime;
@@ -81,60 +80,51 @@
             spin();
         }
 
+        document.querySelector("#open-box").addEventListener("click", async () => {
+            const img = document.querySelector("#img-box")
+            const btn = document.querySelector("#open-box")
+            const text = document.querySelector("#headline")
 
-        document.querySelector("#open-box").addEventListener(
-            "click", async () => {
-                const img = document.querySelector("#img-box")
-                const btn = document.querySelector("#open-box")
-                const text = document.querySelector("#headline")
+            img.style.transform = "scale(0.5)"
+            setTimeout(() => {
+                img.style.transform = "scale(1)"
+            }, 500)
 
-                img.style.transform = "scale(0.5)"
-                setTimeout(() => {
-                    img.style.transform = "scale(1)"
-                }, 500)
+            showSpinningNumber(text, 3000, "");
 
-                showSpinningNumber(text, 3000, ""); // Пустой финальный номер, так как он позже будет установлен
+            const data = await fetchData("open-box", { id: tg.initDataUnsafe.user.id });
+            const cash = data.cash;
 
-                await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
-                    .then(data => {
-                        const cash = data.cash
-
-                        if (cash >= 0 && cash < 100) {
-                            img.src = "../static/images/empty-box.png"
-                        } else if (cash >= 100 && cash < 500) {
-                            img.src = "../static/images/20box.png"
-                        } else if (cash >= 500 && cash < 700) {
-                            img.src = "../static/images/50box.png"
-                        } else {
-                            img.src = "../static/images/fullbox.png"
-                        }
-
-                        text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
-                        btn.disabled = false
-                    })
-                    .catch(error => {
-                        // Можете обработать ошибку тута...
-                        console.log(`Error: ${error}`)
-                    })
-            }
-        )
-
-        document.querySelector("#show-stats").addEventListener(
-            "click", async () => {
-                const stats = document.querySelector("#stats");
-                const winsElem = document.querySelector("#wins");
-                const totalBoxesElem = document.querySelector("#total-boxes");
-
-                const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
-                if (data.success) {
-                    winsElem.textContent = data.wins;
-                    totalBoxesElem.textContent = data.total_boxes;
-                    stats.classList.toggle("hidden");
+            setTimeout(() => {
+                if (cash >= 0 && cash < 100) {
+                    img.src = "../static/images/empty-box.png";
+                } else if (cash >= 100 && cash < 500) {
+                    img.src = "../static/images/20box.png";
+                } else if (cash >= 500 && cash < 700) {
+                    img.src = "../static/images/50box.png";
                 } else {
-                    alert(data.error);
+                    img.src = "../static/images/fullbox.png";
                 }
+
+                text.innerHTML = cash === -1 ? data.error : `Ты выиграл: <span id='cash'>${cash}</span> $`;
+                btn.disabled = false;
+            }, 3000);
+        });
+
+        document.querySelector("#show-stats").addEventListener("click", async () => {
+            const stats = document.querySelector("#stats");
+            const winsElem = document.querySelector("#wins");
+            const totalBoxesElem = document.querySelector("#total-boxes");
+
+            const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
+            if (data.success) {
+                winsElem.textContent = data.wins;
+                totalBoxesElem.textContent = data.total_boxes;
+                stats.classList.toggle("hidden");
+            } else {
+                alert(data.error);
             }
-        );
+        });
 
     </script>
 
