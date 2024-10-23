@@ -24,7 +24,7 @@
     <div id="stats" class="stats hidden">
         <h2>Статистика</h2>
         <p>Выигрыши: <span id="wins">0</span></p>
-        <p>Открытые коробки: <span id="total-boxes">0</span></p>
+        <p>Всего коробок открыто: <span id="total-boxes">0</span></p>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -101,18 +101,22 @@
         )
 
         document.querySelector("#show-stats").addEventListener(
-            "click", async () => {
-                const stats = document.querySelector("#stats")
-                const winsElem = document.querySelector("#wins")
-                const totalBoxesElem = document.querySelector("#total-boxes")
+                "click", async () => {
+                    const stats = document.querySelector("#stats");
+                    const winsElem = document.querySelector("#wins");
+                    const totalBoxesElem = document.querySelector("#total-boxes");
 
-                const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id })
-                winsElem.textContent = data.wins
-                totalBoxesElem.textContent = data.totalBoxes
+                    const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
+                    if (data.success) {
+                        winsElem.textContent = data.wins;
+                        totalBoxesElem.textContent = data.total_boxes;
+                        stats.classList.toggle("hidden");
+                    } else {
+                        alert(data.error);
+                    }
+                }
+            );
 
-                stats.classList.toggle("hidden")
-            }
-        )
     </script>
 
 </body>
