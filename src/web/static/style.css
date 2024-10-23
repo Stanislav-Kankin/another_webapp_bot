@@ -99,3 +99,43 @@ body {
     display: block;
     margin-top: 10px;
 }
+
+/* Стили для контейнера с пузырьками */
+.bubbles {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Стили для пузырьков */
+.bubbles span {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #4fc3dc;
+    margin: 0 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #058d4e1f,
+    0 0 50px #4fdc967e,
+    0 0 100px #4fec5c80;
+    animation: animate 15s linear infinite;
+    animation-duration: calc(125s / var(--i));
+}
+
+/* Стили для четных пузырьков */
+.bubbles span:nth-child(even) {
+    background: #57f771;
+    box-shadow: 0 0 0 10px #30cb831f,
+    0 0 50px #4fdc967e,
+    0 0 100px #4fec5c80;
+}
+
+/* Анимация для пузырьков */
+@keyframes animate {
+    0% {
+        transform: translateY(100vh) scale(0);
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+    }
+}
