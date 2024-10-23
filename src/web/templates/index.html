@@ -20,6 +20,7 @@
     <div id="info-panel" style="display: none;">
         <h2>Информация о выигрышах</h2>
         <div id="winnings-info"></div>
+        <button id="close-info">Закрыть</button>
     </div>
 
     <div class="container">
@@ -29,10 +30,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         const tg = window.Telegram.WebApp;
-        const defaultUrl = "https://a4d3-147-45-193-130.ngrok-free.app";  // ТУННЕЛЬ
-
-        tg.headerColor = "#fff";
-        tg.expand();
+        const defaultUrl = "https://your-url.com";  // Замените на ваш URL
 
         document.addEventListener("DOMContentLoaded", () => {
             const bubblesElem = document.querySelector(".bubbles");
@@ -62,18 +60,6 @@
             }
         }
 
-        async function replaceBox(newImageSrc) {
-            const img = document.querySelector("#img-box");
-
-            img.classList.add('fade-out');
-
-            img.addEventListener('transitionend', () => {
-                img.src = newImageSrc; 
-                img.classList.remove('fade-out');
-                img.classList.add('fade-in');
-            }, { once: true });
-        }
-
         document.querySelector("#open-box").addEventListener("click", async () => {
             const img = document.querySelector("#img-box");
             const btn = document.querySelector("#open-box");
@@ -83,19 +69,18 @@
                 .then(data => {
                     const cash = data.cash;
 
+                    // Убираем логику анимации
                     if (cash >= 0 && cash < 100) {
-                        replaceBox("../static/images/empty-box.png");
+                        img.src = "../static/images/empty-box.png";
                     } else if (cash >= 100 && cash < 500) {
-
-                        replaceBox("../static/images/20box.png");
+                        img.src = "../static/images/20box.png";
                     } else if (cash >= 500 && cash < 700) {
-                        replaceBox("../static/images/50box.png");
+                        img.src = "../static/images/50box.png";
                     } else {
-                        replaceBox("../static/images/fullbox.png");
+                        img.src = "../static/images/fullbox.png";
                     }
 
                     text.innerHTML = cash === -1 ? data.error : `Ты выиграл: <span id='cash'>${cash}</span> $`;
-                    btn.disabled = false;
                 })
                 .catch(error => {
                     console.log(`Error: ${error}`);
@@ -114,7 +99,12 @@
                     winningsInfo.innerHTML = "Ошибка получения данных";
                 });
 
-            infoPanel.style.display = infoPanel.style.display === "none" ? "block" : "none";
+            // Отображение информационной панели поверх
+            infoPanel.style.display = "block";
+        });
+
+        document.querySelector("#close-info").addEventListener("click", () => {
+            document.querySelector("#info-panel").style.display = "none"; // Закрываем информацию
         });
     </script>
 
