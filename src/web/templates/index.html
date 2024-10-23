@@ -106,7 +106,7 @@
                     img.src = "../static/images/fullbox.png";
                 }
 
-                text.innerHTML = cash === -1 ? data.error : `Ты выиграл: <span id='cash'>${cash}</span> $`;
+                text.innerHTML = cash === -1 ? data.error : `Выигрыш: <span id='cash'>${cash}</span> $`;
                 btn.disabled = false;
             }, 3000);
         });
