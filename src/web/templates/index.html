@@ -65,16 +65,22 @@
             }
         }
 
-        document.querySelector("#open-box").addEventListener(
-            "click", async () => {
-                const img = document.querySelector("#img-box")
-                const btn = document.querySelector("#open-box")
-                const text = document.querySelector("#headline")
+                document.querySelector("#show-stats").addEventListener(
+                    "click", async () => {
+                        const stats = document.querySelector("#stats");
+                        const winsElem = document.querySelector("#wins");
+                        const totalBoxesElem = document.querySelector("#total-boxes");
 
-                img.style.transform = "scale(0.5)"
-                setTimeout(() => {
-                    img.style.transform = "scale(1)"
-                }, 500)
+                        const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
+                        if (data.success) {
+                            winsElem.textContent = data.wins;
+                            totalBoxesElem.textContent = data.total_boxes;
+                            stats.classList.toggle("hidden");
+                        } else {
+                            alert(data.error);
+                        }
+                    }
+                );
 
                 await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
                     .then(data => {
