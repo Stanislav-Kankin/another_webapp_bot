@@ -18,8 +18,6 @@ from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from starlette.middleware.base import BaseHTTPMiddleware
-
 from tortoise import Tortoise
 import uvicorn
 
@@ -58,14 +56,6 @@ class UserMiddleware(BaseMiddleware):
         return await handler(event, data)
 
 
-class CacheControlMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        response = await call_next(request)
-        if request.url.path.startswith("/static"):
-            response.headers["Cache-Control"] = "public, max-age=31536000"  # 1 year
-        return response
-
-
 async def lifespan(app: FastAPI):
     """
     Функция для управления жизненным циклом FastAPI приложения.
@@ -94,7 +84,6 @@ bot = Bot(
 dp = Dispatcher()
 
 app = FastAPI(lifespan=lifespan)
-app.add_middleware(CacheControlMiddleware)
 templates = Jinja2Templates(directory=config.TEMPLATES_PATH)
 
 dp.message.middleware(UserMiddleware())
