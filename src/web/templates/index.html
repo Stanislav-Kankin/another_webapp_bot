@@ -14,15 +14,8 @@
         <h1 id="headline">Lucky Box</h1>
         <img src="../static/images/closed-box.png" alt="Closed Box" id="img-box">
         <button id="open-box">Открыть</button>
-        <button id="show-info">Показать информацию</button>
     </div>
 
-    <!-- Информационная панель -->
-    <div id="info-panel" style="display: none;">
-        <h2>Информация о выигрышах</h2>
-        <div id="winnings-info"></div>
-        <button id="close-info">Закрыть</button>
-    </div>
 
     <div class="container">
         <div class="bubbles"></div>
@@ -30,82 +23,71 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        const tg = window.Telegram.WebApp;
-        const defaultUrl = "https://your-url.com";  // Замените на ваш URL
+        const tg = window.Telegram.WebApp
+        const defaultUrl = "https://a4d3-147-45-193-130.ngrok-free.app"  // ТУННЕЛЬ
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const bubblesElem = document.querySelector(".bubbles");
+        tg.headerColor = "#fff"
+        tg.expand()
 
-            // Создание пузырьков
-            for (let i = 0; i < 64; i++) {
-                const bubbleElem = document.createElement("span");
-                const randomId = Math.floor(Math.random() * 64) + 1;
+        document.addEventListener(
+            "DOMContentLoaded", () => {
+                const bubblesElem = document.querySelector(".bubbles")
 
-                bubbleElem.style.setProperty("--i", randomId);
-                bubblesElem.appendChild(bubbleElem);
+                for (let i = 0; i < 64; i++) {
+                    const bubbleElem = document.createElement("span")
+                    const randomId = Math.floor(Math.random() * 64) + 1
+
+                    bubbleElem.style.setProperty("--i", randomId)
+                    bubblesElem.appendChild(bubbleElem)
+                }
             }
-        });
+        )
 
         async function fetchData(endpoint, data) {
             try {
+                console.log(`${defaultUrl}/${endpoint}`)
                 const response = await fetch(`${defaultUrl}/${endpoint}`, {
                     method: "POST",
                     headers: { Authentication: tg.initData },
                     body: JSON.stringify(data)
-                });
-                const responseData = await response.json();
-                return responseData;
+                })
+                const responseData = await response.json()
+                return responseData
             } catch (error) {
-                console.log(`Error: ${error}`);
-                throw error;
+                console.log(`Error: ${error}`)
+                throw error
             }
         }
 
-        document.querySelector("#open-box").addEventListener("click", async () => {
-            const img = document.querySelector("#img-box");
-            const text = document.querySelector("#headline");
+        document.querySelector("#open-box").addEventListener(
+            "click", async () => {
+                const img = document.querySelector("#img-box")
+                const btn = document.querySelector("#open-box")
+                const text = document.querySelector("#headline")
 
-            await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
-                .then(data => {
-                    const cash = data.cash;
+                await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
+                    .then(data => {
+                        const cash = data.cash
 
-                    // Логика открытия коробки
-                    if (cash >= 0 && cash < 100) {
-                        img.src = "../static/images/empty-box.png";
-                    } else if (cash >= 100 && cash < 500) {
-                        img.src = "../static/images/20box.png";
-                    } else if (cash >= 500 && cash < 700) {
-                        img.src = "../static/images/50box.png";
-                    } else {
-                        img.src = "../static/images/fullbox.png";
-                    }
+                        if (cash >= 0 && cash < 100) {
+                            img.src = "../static/images/empty-box.png"
+                        } else if (cash >= 100 && cash < 500) {
+                            img.src = "../static/images/20box.png"
+                        } else if (cash >= 500 && cash < 700) {
+                            img.src = "../static/images/50box.png"
+                        } else {
+                            img.src = "../static/images/fullbox.png"
+                        }
 
-                    text.innerHTML = cash === -1 ? data.error : `Ты выиграл: <span id='cash'>${cash}</span> $`;
-                })
-                .catch(error => {
-                    console.log(`Error: ${error}`);
-                });
-        });
-
-        document.querySelector("#show-info").addEventListener("click", () => {
-            const infoPanel = document.querySelector("#info-panel");
-
-            const winningsInfo = document.querySelector("#winnings-info");
-
-            fetchData("get-winnings-info", { id: tg.initDataUnsafe.user.id })
-                .then(data => {
-                    winningsInfo.innerHTML = `Ваши выигрыши: ${data.winnings}, Всего открытых коробок: ${data.totalOpened}`;
-                    infoPanel.style.display = "block"; // Показываем информационную панель
-                })
-                .catch(err => {
-                    winningsInfo.innerHTML = "Ошибка получения данных";
-                });
-        });
-
-        // Закрытие информационной панели
-        document.querySelector("#close-info").addEventListener("click", () => {
-            document.querySelector("#info-panel").style.display = "none"; // Скрываем панель информации
-        });
+                        text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
+                        btn.disabled = false
+                    })
+                    .catch(error => {
+                        // Можете обработать ошибку тута...
+                        console.log(`Error: ${error}`)
+                    })
+            }
+        )
     </script>
 
 </body>
