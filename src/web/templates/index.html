@@ -65,48 +65,38 @@
             }
         }
 
-        document.querySelector("#show-stats").addEventListener("click", async () => {
-            const response = await fetch("/get-stats", {
-                method: "POST",
-                headers: { Authentication: tg.initData }
-            });
+        document.querySelector("#open-box").addEventListener(
+            "click", async () => {
+                const img = document.querySelector("#img-box")
+                const btn = document.querySelector("#open-box")
+                const text = document.querySelector("#headline")
 
-            const data = await response.json();
-            if (data.success) {
-                document.querySelector("#wins").textContent = data.wins;
-                document.querySelector("#total-boxes").textContent = data.total_boxes;
-                document.querySelector("#stats").classList.remove("hidden");
-            } else {
-                alert(data.error);
-            }
-        });
+                img.style.transform = "scale(0.5)"
+                setTimeout(() => {
+                    img.style.transform = "scale(1)"
+                }, 500)
 
-        img.style.transform = "scale(0.5)"
-        setTimeout(() => {
-            img.style.transform = "scale(1)"
-        }, 500)
+                await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
+                    .then(data => {
+                        const cash = data.cash
 
-        await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
-            .then(data => {
-                const cash = data.cash
+                        if (cash >= 0 && cash < 100) {
+                            img.src = "../static/images/empty-box.png"
+                        } else if (cash >= 100 && cash < 500) {
+                            img.src = "../static/images/20box.png"
+                        } else if (cash >= 500 && cash < 700) {
+                            img.src = "../static/images/50box.png"
+                        } else {
+                            img.src = "../static/images/fullbox.png"
+                        }
 
-                if (cash >= 0 && cash < 100) {
-                    img.src = "../static/images/empty-box.png"
-                } else if (cash >= 100 && cash < 500) {
-                    img.src = "../static/images/20box.png"
-                } else if (cash >= 500 && cash < 700) {
-                    img.src = "../static/images/50box.png"
-                } else {
-                    img.src = "../static/images/fullbox.png"
-                }
-
-                text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
-                btn.disabled = false
-            })
-            .catch(error => {
-                // Можете обработать ошибку тута...
-                console.log(`Error: ${error}`)
-            })
+                        text.innerHTML = cash === -1 ? data.error : `Ты выйграл: <span id='cash'>${cash}</span> $`
+                        btn.disabled = false
+                    })
+                    .catch(error => {
+                        // Можете обработать ошибку тута...
+                        console.log(`Error: ${error}`)
+                    })
             }
         )
 
