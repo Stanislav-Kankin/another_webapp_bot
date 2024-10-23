@@ -1,183 +1,179 @@
 /* Подключение шрифта */
 @font-face {
-    font-family: "Fulbo";
-    src: url("fonts/FulboArgenta.ttf");
+    font-family: "Fulbo"; /* Определяет имя шрифта */
+    src: url("fonts/FulboArgenta.ttf"); /* Указывает путь к файлу шрифта */
 }
 
 /* Общие стили для всех элементов */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Fulbo";
+    margin: 0; /* Убирает внешние отступы */
+    padding: 0; /* Убирает внутренние отступы */
+    box-sizing: border-box; /* Включает padding и border в общую ширину и высоту элемента */
+    font-family: "Fulbo"; /* Устанавливает пользовательский шрифт для всех элементов */
 }
 
 /* Стили для тела документа */
 body {
-    background: #0f0a18;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    background: #0f0a18; /* Устанавливает фон страницы */
+    display: flex; /* Использует flexbox для расположения элементов */
+    align-items: center; /* Центрирует элементы по вертикали */
+    justify-content: center; /* Центрирует элементы по горизонтали */
+    min-height: 100vh; /* Устанавливает минимальную высоту страницы равной высоте окна браузера */
 }
 
 /* Стили для контейнера с ящиком */
 .box {
-    position: absolute;
-    z-index: 1;
-    flex-direction: column;
-    max-width: 400px;
-    max-height: 650px;
-    width: 400px;
-    height: 650px;
-    background: #221a30;
-    border-radius: 30px;
-    box-shadow: 0 0 20px #1b1525;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px;
+    position: absolute; /* Позиционирует элемент абсолютно относительно ближайшего позиционированного предка */
+    z-index: 1; /* Устанавливает порядок наложения элемента */
+    flex-direction: column; /* Устанавливает направление flex-контейнера по столбцу */
+    max-width: 400px; /* Устанавливает максимальную ширину элемента */
+    max-height: 650px; /* Устанавливает максимальную высоту элемента */
+    width: 400px; /* Устанавливает фиксированную ширину элемента */
+    height: 650px; /* Устанавливает фиксированную высоту элемента */
+    background: #221a30; /* Устанавливает фон элемента */
+    border-radius: 30px; /* Устанавливает радиус скругления углов элемента */
+    box-shadow: 0 0 20px #1b1525; /* Добавляет тень к элементу */
+    display: flex; /* Использует flexbox для расположения элементов */
+    align-items: center; /* Центрирует элементы по вертикали */
+    justify-content: center; /* Центрирует элементы по горизонтали */
+    flex-direction: column; /* Устанавливает направление flex-контейнера по столбцу */
+    padding: 20px; /* Добавляет внутренние отступы к элементу */
 }
 
 /* Стили для заголовка внутри ящика */
 .box h1 {
-    color: #fff;
-    text-align: center;
-    margin-top: 20px;
-    transition: all 1s;
-    animation: pulse 1s ease-in-out infinite alternate;
+    color: #fff; /* Устанавливает цвет текста */
+    text-align: center; /* Центрирует текст по горизонтали */
+    margin-top: 20px; /* Добавляет верхний внешний отступ */
+    transition: all 1s; /* Добавляет плавный переход для всех свойств */
+    animation: pulse 1s ease-in-out infinite alternate; /* Добавляет анимацию пульсации */
 }
 
 /* Анимация пульсации для заголовка */
 @keyframes pulse {
     0% {
-        opacity: 100%;
+        opacity: 100%; /* Начальное состояние анимации (полная непрозрачность) */
     }
     100% {
-        opacity: 50%;
+        opacity: 50%; /* Конечное состояние анимации (полупрозрачность) */
     }
 }
 
 /* Стили для элемента с текстом "cash" */
 #cash {
-    color: #2ac766;
-    text-shadow: 0 0 20px #22a554;
+    color: #2ac766; /* Устанавливает цвет текста */
+    text-shadow: 0 0 20px #22a554; /* Добавляет тень к тексту */
 }
 
 /* Стили для изображения внутри ящика */
 .box img {
-    display: block;
-    margin: 30% auto;
-    width: 256px;
-    height: 256px;
-    transition: transform 0.5s ease-in-out;
+    display: block; /* Устанавливает отображение элемента как блочного */
+    margin: 30% auto; /* Центрирует изображение по горизонтали и добавляет вертикальный отступ */
+    width: 256px; /* Устанавливает фиксированную ширину изображения */
+    height: 256px; /* Устанавливает фиксированную высоту изображения */
+    transition: transform 0.5s ease-in-out; /* Добавляет плавный переход для свойства `transform` */
 }
 
 /* Стили для кнопки внутри ящика */
 .box button {
-    outline: none;
-    border: none;
-    padding: 20px;
-    border-radius: 60px;
-    display: block;
-    margin: 20px auto;
-    width: 300px;
-    font-size: 1.5em;
-    box-shadow: 0 10px 0 #15fc89;
-    transition: all 0.3s;
+    outline: none; /* Убирает обводку кнопки */
+    border: none; /* Убирает границу кнопки */
+    padding: 20px; /* Добавляет внутренние отступы к кнопке */
+    border-radius: 60px; /* Устанавливает радиус скругления углов кнопки */
+    display: block; /* Устанавливает отображение кнопки как блочного элемента */
+    margin: 20px auto; /* Центрирует кнопку по горизонтали и добавляет вертикальный отступ */
+    width: 300px; /* Устанавливает фиксированную ширину кнопки */
+    font-size: 1.5em; /* Устанавливает размер шрифта текста кнопки */
+    box-shadow: 0 10px 0 #15fc89; /* Добавляет тень к кнопке */
+    transition: all 0.3s; /* Добавляет плавный переход для всех свойств */
 }
 
 /* Стили для отключенной кнопки */
 .box button:disabled {
-    opacity: 70%;
-    cursor: not-allowed;
-    box-shadow: 0 10px 0 #0ea75b2c;
+    opacity: 70%; /* Устанавливает прозрачность кнопки */
+    cursor: not-allowed; /* Устанавливает курсор в виде запрещающего знака */
+    box-shadow: 0 10px 0 #0ea75b2c; /* Добавляет тень к кнопке */
 }
 
 /* Стили для кнопки при наведении курсора */
 .box button:hover {
-    box-shadow: 0 10px 0 #2ac766;
-    transform: translateY(3px);
-    cursor: pointer;
+    box-shadow: 0 10px 0 #2ac766; /* Добавляет тень к кнопке */
+    transform: translateY(3px); /* Сдвигает кнопку вниз на 3 пикселя */
+    cursor: pointer; /* Устанавливает курсор в виде указателя */
 }
 
 /* Стили для контейнера */
 .container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    position: relative; /* Позиционирует элемент относительно его нормального положения */
+    width: 100%; /* Устанавливает ширину элемента */
+    height: 100vh; /* Устанавливает высоту элемента */
+    overflow: hidden; /* Скрывает содержимое, которое выходит за пределы элемента */
 }
 
 /* Стили для контейнера с пузырьками */
 .bubbles {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
+    position: relative; /* Позиционирует элемент относительно его нормального положения */
+    display: flex; /* Использует flexbox для расположения элементов */
+    flex-wrap: wrap; /* Разрешает перенос элементов на новую строку */
 }
 
 /* Стили для пузырьков */
 .bubbles span {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    background: #4fc3dc;
-    margin: 0 4px;
-    border-radius: 50%;
-    box-shadow: 0 0 0 10px #058d4e1f,
-    0 0 50px #4fdc967e,
-    0 0 100px #4fec5c80;
-    animation: animate 15s linear infinite;
-    animation-duration: calc(125s / var(--i));
+    position: relative; /* Позиционирует элемент относительно его нормального положения */
+    width: 30px; /* Устанавливает фиксированную ширину пузырьков */
+    height: 30px; /* Устанавливает фиксированную высоту пузырьков */
+    background: #4fc3dc; /* Устанавливает фон пузырьков */
+    margin: 0 4px; /* Добавляет горизонтальные отступы между пузырьками */
+    border-radius: 50%; /* Устанавливает радиус скругления углов пузырьков (делает их круглыми) */
+    box-shadow: 0 0 0 10px #058d4e1f, 0 0 50px #4fdc967e, 0 0 100px #4fec5c80; /* Добавляет тень к пузырькам */
+    animation: animate 15s linear infinite; /* Добавляет анимацию для пузырьков */
+    animation-duration: calc(125s / var(--i)); /* Устанавливает длительность анимации для каждого пузырька */
 }
 
 /* Стили для четных пузырьков */
 .bubbles span:nth-child(even) {
-    background: #57f771;
-    box-shadow: 0 0 0 10px #058d4e1f,
-    0 0 50px #4fdc967e,
-    0 0 100px #4fec5c80;
+    background: #57f771; /* Устанавливает фон для четных пузырьков */
+    box-shadow: 0 0 0 10px #058d4e1f, 0 0 50px #4fdc967e, 0 0 100px #4fec5c80; /* Добавляет тень к четным пузырькам */
 }
 
 /* Анимация для пузырьков */
 @keyframes animate {
     0% {
-        transform: translateY(100vh) scale(0);
+        transform: translateY(100vh) scale(0); /* Начальное состояние анимации (пузырек внизу и маленький) */
     }
     100% {
-        transform: translateY(-10vh) scale(1);
+        transform: translateY(-10vh) scale(1); /* Конечное состояние анимации (пузырек вверху и большой) */
     }
 }
 
 /* Стили для статистики */
 .stats {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 20px #1b1525;
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: fixed; /* Позиционирует элемент фиксированно относительно окна браузера */
+    top: 50%; /* Устанавливает вертикальное положение элемента */
+    left: 50%; /* Устанавливает горизонтальное положение элемента */
+    transform: translate(-50%, -50%); /* Центрирует элемент */
+    background: rgba(0, 0, 0, 0.8); /* Устанавливает полупрозрачный фон элемента */
+    border-radius: 10px; /* Устанавливает радиус скругления углов элемента */
+    padding: 20px; /* Добавляет внутренние отступы к элементу */
+    box-shadow: 0 0 20px #1b1525; /* Добавляет тень к элементу */
+    z-index: 1000; /* Устанавливает порядок наложения элемента */
+    transition: transform 0.3s ease-in-out; /* Добавляет плавный переход для свойства `transform` */
+    display: flex; /* Использует flexbox для расположения элементов */
+    flex-direction: column; /* Устанавливает направление flex-контейнера по столбцу */
+    align-items: center; /* Центрирует элементы по горизонтали */
+    justify-content: center; /* Центрирует элементы по вертикали */
 }
 
 .stats.hidden {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0); /* Скрывает элемент */
 }
 
 .stats h2 {
-    color: #fff;
-    margin-bottom: 10px;
+    color: #fff; /* Устанавливает цвет текста */
+    margin-bottom: 10px; /* Добавляет нижний внешний отступ */
 }
 
 .stats p {
-    color: #fff;
-    margin: 5px 0;
+    color: #fff; /* Устанавливает цвет текста */
+    margin: 5px 0; /* Добавляет вертикальные отступы */
 }
