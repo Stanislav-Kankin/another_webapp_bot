@@ -33,6 +33,10 @@ body {
     background: #221a30;
     border-radius: 30px;
     box-shadow: 0 0 20px #1b1525;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 /* Стили для заголовка внутри ящика */
@@ -66,6 +70,7 @@ body {
     margin: 30% auto;
     width: 256px;
     height: 256px;
+    transition: transform 0.5s ease-in-out;
 }
 
 /* Стили для кнопки внутри ящика */
@@ -75,7 +80,7 @@ body {
     padding: 20px;
     border-radius: 60px;
     display: block;
-    margin: -50px auto;
+    margin: 20px auto;
     width: 300px;
     font-size: 1.5em;
     box-shadow: 0 10px 0 #15fc89;
@@ -142,4 +147,30 @@ body {
     100% {
         transform: translateY(-10vh) scale(1);
     }
+}
+
+/* Стили для статистики */
+.stats {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #221a30;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px #1b1525;
+    transition: transform 0.3s ease-in-out;
+}
+
+.stats.hidden {
+    transform: translateX(100%);
+}
+
+.stats h2 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.stats p {
+    color: #fff;
+    margin: 5px 0;
 }

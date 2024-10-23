@@ -14,11 +14,17 @@
         <h1 id="headline">Lucky Box</h1>
         <img src="../static/images/closed-box.png" alt="Closed Box" id="img-box">
         <button id="open-box">Открыть</button>
+        <button id="show-stats">Показать статистику</button>
     </div>
-
 
     <div class="container">
         <div class="bubbles"></div>
+    </div>
+
+    <div id="stats" class="stats hidden">
+        <h2>Статистика</h2>
+        <p>Выигрыши: <span id="wins">0</span></p>
+        <p>Открытые коробки: <span id="total-boxes">0</span></p>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -86,6 +92,20 @@
                         // Можете обработать ошибку тута...
                         console.log(`Error: ${error}`)
                     })
+            }
+        )
+
+        document.querySelector("#show-stats").addEventListener(
+            "click", async () => {
+                const stats = document.querySelector("#stats")
+                const winsElem = document.querySelector("#wins")
+                const totalBoxesElem = document.querySelector("#total-boxes")
+
+                const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id })
+                winsElem.textContent = data.wins
+                totalBoxesElem.textContent = data.totalBoxes
+
+                stats.classList.toggle("hidden")
             }
         )
     </script>
