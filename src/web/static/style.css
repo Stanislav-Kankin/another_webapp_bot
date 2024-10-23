@@ -37,6 +37,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 20px;
 }
 
 /* Стили для заголовка внутри ящика */
@@ -151,18 +152,24 @@ body {
 
 /* Стили для статистики */
 .stats {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #221a30;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 20px #1b1525;
+    z-index: 1000;
     transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .stats.hidden {
-    transform: translateX(100%);
+    transform: translate(-50%, -50%) scale(0);
 }
 
 .stats h2 {

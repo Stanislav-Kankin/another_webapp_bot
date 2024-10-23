@@ -71,6 +71,11 @@
                 const btn = document.querySelector("#open-box")
                 const text = document.querySelector("#headline")
 
+                img.style.transform = "scale(0.5)"
+                setTimeout(() => {
+                    img.style.transform = "scale(1)"
+                }, 500)
+
                 await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
                     .then(data => {
                         const cash = data.cash
