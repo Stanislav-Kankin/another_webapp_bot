@@ -66,6 +66,8 @@ body {
     margin: 30% auto;
     width: 256px;
     height: 256px;
+    opacity: 1;
+    transition: opacity 0.5s;
 }
 
 /* Стили для кнопки внутри ящика */
@@ -75,7 +77,7 @@ body {
     padding: 20px;
     border-radius: 60px;
     display: block;
-    margin: -50px auto;
+    margin: -30px auto;
     width: 300px;
     font-size: 1.5em;
     box-shadow: 0 10px 0 #15fc89;
@@ -140,6 +142,30 @@ body {
         transform: translateY(100vh) scale(0);
     }
     100% {
+
         transform: translateY(-10vh) scale(1);
     }
+}
+
+/* Стили для информационной панели */
+#info-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    color: #000;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Анимация для появляющейся и исчезающей картинки */
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s;
 }
