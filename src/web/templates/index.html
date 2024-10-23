@@ -64,6 +64,23 @@
                 throw error
             }
         }
+        function showSpinningNumber(element, duration, finalNumber) {
+            const startTime = Date.now();
+            const interval = 50; // Интервал обновления в миллисекундах
+
+            const spin = () => {
+                const elapsedTime = Date.now() - startTime;
+                if (elapsedTime < duration) {
+                    element.innerHTML = Math.floor(Math.random() * 1000);
+                    setTimeout(spin, interval);
+                } else {
+                    element.innerHTML = finalNumber;
+                }
+            };
+
+            spin();
+        }
+
 
         document.querySelector("#open-box").addEventListener(
             "click", async () => {
@@ -75,6 +92,8 @@
                 setTimeout(() => {
                     img.style.transform = "scale(1)"
                 }, 500)
+
+                showSpinningNumber(text, 3000, ""); // Пустой финальный номер, так как он позже будет установлен
 
                 await fetchData("open-box", { id: tg.initDataUnsafe.user.id })
                     .then(data => {
@@ -101,21 +120,21 @@
         )
 
         document.querySelector("#show-stats").addEventListener(
-                "click", async () => {
-                    const stats = document.querySelector("#stats");
-                    const winsElem = document.querySelector("#wins");
-                    const totalBoxesElem = document.querySelector("#total-boxes");
+            "click", async () => {
+                const stats = document.querySelector("#stats");
+                const winsElem = document.querySelector("#wins");
+                const totalBoxesElem = document.querySelector("#total-boxes");
 
-                    const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
-                    if (data.success) {
-                        winsElem.textContent = data.wins;
-                        totalBoxesElem.textContent = data.total_boxes;
-                        stats.classList.toggle("hidden");
-                    } else {
-                        alert(data.error);
-                    }
+                const data = await fetchData("get-stats", { id: tg.initDataUnsafe.user.id });
+                if (data.success) {
+                    winsElem.textContent = data.wins;
+                    totalBoxesElem.textContent = data.total_boxes;
+                    stats.classList.toggle("hidden");
+                } else {
+                    alert(data.error);
                 }
-            );
+            }
+        );
 
     </script>
 
