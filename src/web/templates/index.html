@@ -99,11 +99,11 @@
                 if (cash >= 0 && cash < 100) {
                     img.src = "../static/images/button.png";
                 } else if (cash >= 100 && cash < 500) {
-                    img.src = "../static/images/20box.png";
+                    img.src = "../static/images/button.png";
                 } else if (cash >= 500 && cash < 700) {
-                    img.src = "../static/images/50box.png";
+                    img.src = "../static/images/button.png";
                 } else {
-                    img.src = "../static/images/fullbox.png";
+                    img.src = "../static/images/button.png";
                 }
 
                 text.innerHTML = cash === -1 ? data.error : `Выигрыш: <span id='cash'>${cash}</span> $`;
