@@ -205,6 +205,20 @@ async def open_box(request: Request):
 
 @app.post("/get-stats")
 async def get_stats(request: Request):
+    """
+    Обработчик запроса для получения статистики пользователя.
+
+    Args:
+        request (Request): Объект запроса, содержащий заголовки и данные.
+
+    Returns:
+        JSONResponse: Ответ в формате JSON, содержащий статистику пользователя.
+
+    Raises:
+        JSONResponse: Возвращает ошибку 401, если заголовок
+        Authentication недействителен.
+        JSONResponse: Возвращает ошибку 404, если пользователь не найден.
+    """
     authorization = request.headers.get("Authentication")
     try:
         data = safe_parse_webapp_init_data(bot.token, authorization)
